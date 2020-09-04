@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ReactDom from 'react-dom';
-import { LoginForm, LoggedIn, Home } from './components'
+import { LoginForm, LoggedIn, About, LandingPage } from './components'
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
@@ -14,7 +14,8 @@ class App extends Component{
         <BrowserRouter >
         <Route render={() => <NavBar />} />
           <Switch>
-            <Route exact path={'/'} component ={Home}></Route>
+            <Route exact path={'/'} component ={LandingPage}></Route>
+            <Route exact path={'/About'} component ={About}></Route>
             <Route exact path={'/login'} component={LoginForm}></Route>
             <Route exact path={'/account'} component={LoggedIn}></Route>
             <Redirect to='/' />
