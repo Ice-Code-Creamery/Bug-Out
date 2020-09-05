@@ -1,20 +1,21 @@
+// import chalk from 'chalk';
 const chalk = require('chalk');
-const { sync } = require('./server/db/index');
-const { models: { User } } = require('./server/db/models/index');
+// import { sync } from './src/server/db/index';
+const { sync } = require('./src/server/db/index');
+// import { models } from './src/server/db/models/index';
+const { models } = require('./src/server/db/models/index');
 
 const users = [
   {
     email: 'admin',
     name: 'admin',
-    password: '!nvestig8',
-    department: 'SCPO',
+    password: 'password',
     role: 'admin',
   },
   {
     email: 'member',
     name: 'member',
-    department: 'Local PD',
-    password: '!nvestig8',
+    password: 'password',
     role: 'member',
   },
   
@@ -23,7 +24,7 @@ const users = [
 const seed = async () => {
   try {
     users.map(user => {
-      return User.create(user);
+      return models.User.create(user);
     });
     
     console.log(chalk.green('DB SEEDED'));
