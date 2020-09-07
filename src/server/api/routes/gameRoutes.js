@@ -1,7 +1,6 @@
 /* eslint-disable no-await-in-loop */
 const { Router } = require('express');
-const { models: { GameSession, Session, Prompt } } = require('../../db/index');
-const codeGenerator = require('../utils')
+const { models:{ GameSession, Prompt, Session } }= require('../../db/index');
 
 const gameRouter = Router();
 
@@ -55,7 +54,18 @@ gameRouter.get('/prompt:difficulty', async (req, res) => {
   }
 })
 
-module.exports = {
+
+gameRouter.get('/gameSession', async (req, res)=>{
+  try{
+    const games = await GameSession.findAll({where: {active:true}, include:[Session]})
+    res.send(games[0])
+  } catch(e){
+    console.log('failed to get game')
+    console.log(e)
+  }
+})
+
+module.exports={
   path: '/game',
   router: gameRouter
 }

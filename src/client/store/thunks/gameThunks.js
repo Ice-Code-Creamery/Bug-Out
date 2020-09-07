@@ -14,26 +14,26 @@ export const playAsGuestThunk = (name) => (dispatch) => {
     });
 };
 
-export const createGameThunk = (rounds, difficulty) => (dispatch) => {
-  console.log(rounds)
+export const createGameThunk = (rounds) => (dispatch) => {
   return axios
-    .post('/game/createNew', {rounds, difficulty})
-    .then((game) => {
-      console.log('game data from createNew is ',game.data)
-      dispatch(newGame(game.data));
+    .post('/game/gameSession', {rounds})
+    .then(({data}) => {
+      dispatch(newGame(rounds));
+      axios.put('/user/session', {data})
     })
     .catch((e) => {
       console.log(e);
     });
 };
 
-export const getCurrentGameThunk = () => (dispatch) => {
+export const findRandomGame = () => () => {
   return axios
-    .get('/game/current')
-    .then((game) => {
-      console.log('game from server is ',game.data)
-      dispatch(getCurrentGame(game.data));
-    })
+    .get('/game/gameSession')
+      .then(({data}) => {
+        const {id} = data
+        axios.put(`/user/session/`, id)
+        // dispatch(newGame(rounds));
+      })
     .catch((e) => {
       console.log(e);
     });
