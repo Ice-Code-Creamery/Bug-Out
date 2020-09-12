@@ -41,11 +41,11 @@ const LandingPage = (props) => {
               variantColor="teal"
               variant="outline"
               margin="5px"
-              onClick={() => {
+              onClick={ async () => {
                 if (name === '') {
                   setNoName(true)
                 } else {
-                  updateName(name)
+                  await updateName(name)
                   history.push('/join')
                   setName('')
                 }
@@ -58,11 +58,11 @@ const LandingPage = (props) => {
             variantColor="teal"
             variant="outline"
             margin="5px"
-            onClick={() => {
+            onClick={async () => {
               if (name === '') {
                 setNoName(true)
               } else {
-                updateName(name)
+                await updateName(name)
                 history.push('/create')
                 setName('')
               }
