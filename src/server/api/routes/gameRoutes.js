@@ -41,7 +41,7 @@ gameRouter.get('/prompt:difficulty', async (req, res) => {
   try {
     const { difficulty } = req.query;
     const gamePrompt = await Prompt.findOne({ where: difficulty });
-    res.send(gamePrompt);
+    return(res.send(gamePrompt));
   } catch (e) {
     console.log('failed to get game prompt');
     console.log(e);
@@ -55,13 +55,12 @@ gameRouter.put('/joinGame', async (req, res) => {
     const session = await Session.findOne({ where: { id: req.session_id } });
     const game = await GameSession.findOne({ where: { code: gameCode } });
     if (!game) {
-      res.send(404)
-    } else {
-      await session.update({ gameSessionId: game.id });
-      const gameToDestroy = await GameSession.findOne({ where: { id: currentGameId } });
-      await gameToDestroy.destroy();
-      res.status(200).send()
-    }
+      return(res.send(404))
+    } 
+    await session.update({ gameSessionId: game.id });
+    const gameToDestroy = await GameSession.findOne({ where: { id: currentGameId } });
+    await gameToDestroy.destroy();
+    res.status(200).send()
   } catch (e) {
     console.log('failed to join game');
     console.log(e);
