@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Button, Input, FormControl, Text, Box } from '@chakra-ui/core';
 import { getCurrentGameThunk, findRandomGameThunk } from '../store/thunks/gameThunks';
 
-const LandingPage = (props) => {
+const LandingPage = ({ game, updateName, history, getCurrentGame, findRandomGame }) => {
   const [name, setName] = useState('')
   useEffect(() => {
     props.getCurrentGame();
@@ -19,8 +19,8 @@ const LandingPage = (props) => {
           <Text fontSize="6xl" color='white'>Bug Out!</Text>
           <FormControl>
             <Input
-              placeholder='Enter your name to play'
-              type='text'
+              placeholder="Enter your name to play"
+              type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
@@ -70,10 +70,10 @@ const LandingPage = (props) => {
       </div>
 
     </div>
-  )
-}
+  );
+};
 
-const mapStateToProps = ({ user }) => ({ user });
+const mapStateToProps = ({ user, game, input }) => ({ user, game, input });
 
 const mapDispatchToProps = (dispatch) => {
   return {

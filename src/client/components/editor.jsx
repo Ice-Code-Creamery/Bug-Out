@@ -12,6 +12,7 @@ const CodeEditor = (props)=>{
     props.getPromptThunk('easy')
   }, [])
 
+const CodeEditor = () => {
   const [isEditorReady, setIsEditorReady] = useState(false);
   const valueGetter = useRef();
 
@@ -50,7 +51,6 @@ const CodeEditor = (props)=>{
       </Button>
     </div>
   );
-}
-
+};
 const mapStateToProps = (props) => (props);
 export default connect(mapStateToProps, {getPromptThunk})(CodeEditor)

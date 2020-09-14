@@ -16,10 +16,10 @@ gameRouter.get('/current', async (req, res) => {
     console.log('Error finding current game');
     console.log(e);
   }
-})
+});
 
-// Create game session and set the number of rounds. 
-gameRouter.post('/createNew', async (req, res) => {
+// Create game session and set the number of rounds.
+gameRouter.post("/createNew", async (req, res) => {
   try {
     let newCode = codeGenerator();
     let check = await GameSession.findOne({ where: { code: newCode } });
@@ -31,10 +31,10 @@ gameRouter.post('/createNew', async (req, res) => {
     const newGame = await GameSession.create({ rounds, difficulty, newCode });
     res.status(201).send(newGame);
   } catch (e) {
-    console.log('Error creating game session');
+    console.log("Error creating game session");
     console.log(e);
   }
-})
+});
 
 // Gets a game prompt based on difficulty
 gameRouter.get('/prompt/:diff', async (req, res) => {
@@ -44,7 +44,7 @@ gameRouter.get('/prompt/:diff', async (req, res) => {
     const randomGameIdx = Math.floor(Math.random() * gamePrompts.length)
     res.send(gamePrompts[randomGameIdx]);
   } catch (e) {
-    console.log('failed to get game prompt');
+    console.log("failed to get game prompt");
     console.log(e);
   }
 });

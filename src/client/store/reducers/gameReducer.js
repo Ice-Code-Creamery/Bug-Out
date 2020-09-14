@@ -1,4 +1,4 @@
-import { types } from '../actions';
+import { types } from "../actions";
 
 const initialGameState={
     rounds:'',
@@ -40,5 +40,4 @@ const initialGameState={
       default: return state;
     }
   }
-
-  export default gameReducer
+export default gameReducer;
