@@ -1,5 +1,4 @@
-import { types } from "../actions";
-
+import { types } from '../actions';
 const initialGameState={
     rounds:'',
     currentId: '',

@@ -56,12 +56,12 @@ const newGame = (game) => ({
 const getCurrentGame = ({ game, players }) => ({
   type: types.GET_CURRENT_GAME,
   payload: { game, players },
-})
+});
 
 const joinGame = (res) => ({
   type: types.JOIN_GAME,
   payload: res,
-})
+});
 
 const setPrompt = (prompt) => ({
   type: types.SET_PROMPT,

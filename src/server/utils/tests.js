@@ -1,3 +1,4 @@
+
 function test59cfc000aeb2844d16000075(func){
   if(func("abcdef")!== ['AbCdEf', 'aBcDeF']) return false
   if(func('capitalize me')!== ['CaPiTaLiZe mE', 'cApItAlIzE Me']) return false
