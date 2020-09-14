@@ -77,7 +77,7 @@ export {
   newGame,
   joinGame,
   getCurrentGame,
-  setPrompt
+  setPrompt,
   updateInput,
   addMessage,
 };
