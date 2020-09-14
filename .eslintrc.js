@@ -16,11 +16,9 @@ module.exports = {
       jsx: true,
     },
     ecmaVersion: 11,
-    sourceType: 'module',
+    sourceType: "module",
   },
-  plugins: [
-    'react',
-  ],
+  plugins: ["react"],
   rules: {
     'react/prop-types': 0,
     'react/jsx-one-expression-per-line': [0, { allow: 'single-child' }],
@@ -31,7 +29,7 @@ module.exports = {
   },
   settings: {
     react: {
-      version: 'detect',
+      version: "detect",
     },
   },
 };

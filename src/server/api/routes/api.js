@@ -5,6 +5,7 @@ const { models: { User, Session } } = require('../../db/index');
 const apiRouter = Router();
 
 apiRouter.post('/login', async (req, res) => {
+
   const { email, password } = req.body;
   const user = await User.findOne({
     where: {
@@ -25,7 +26,7 @@ apiRouter.post('/login', async (req, res) => {
   }
 });
 
-apiRouter.get('/whoami', (req, res) => {
+apiRouter.get("/whoami", (req, res) => {
   if (req.user) {
     res.send({
       email: req.user.email,
@@ -35,7 +36,7 @@ apiRouter.get('/whoami', (req, res) => {
   } else {
     res.send({
       email: null,
-      role: 'guest',
+      role: "guest",
       loggedIn: false,
     });
   }

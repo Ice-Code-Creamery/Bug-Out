@@ -32,9 +32,10 @@ const App = () => (
   </Provider>
 );
 
-const app = document.querySelector('#app');
+const app = document.querySelector("#app");
 
 ReactDom.render(
   <App />,
   app,
 );
+

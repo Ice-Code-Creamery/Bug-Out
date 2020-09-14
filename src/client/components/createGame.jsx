@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 /* eslint-disable jsx-a11y/label-has-associated-control */
+
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
@@ -9,12 +10,13 @@ import {
 import store from '../store/index';
 import { createGameThunk, getCurrentGameThunk } from '../store/thunks/gameThunks';
 
-const CreateGame = (props) => {
-  const [rounds, setRounds] = useState('');
-  const [difficulty, setDifficulty] = useState('Beginner');
-  const { game } = props;
+const CreateGame = ({ history, game, getCurrentGame, createGame }) => {
+  const [rounds, setRounds] = useState("");
+  const [difficulty, setDifficulty] = useState("Beginner");
+  // const socket = io();
 
   useEffect(() => {
+
     props.getCurrentGame();
   }, []);
 
@@ -27,12 +29,14 @@ const CreateGame = (props) => {
           <Text>{`Room Code: ${game.code}`}</Text>
         </Box>
         <Box borderWidth="1px" borderColor="black" borderStyle="solid" maxW="sm" rounded="lg" h="100%" m={2} p={4}>
+
           <Text>The Competition</Text>
           {game.players.map((player) => (<Text key={player.id}>{player.name ? (player.name) : 'Guest' }</Text>))}
         </Box>
       </div>
       <div style={{ padding: '10px' }}>
         <Box w="100%" p={4} borderWidth="1px" borderColor="black" borderStyle="solid" maxW="sm" rounded="lg" m={2}>
+
           <Text fontSize="6xl">Settings</Text>
           <FormControl>
             <FormLabel>Difficulty:</FormLabel>
@@ -67,6 +71,7 @@ const CreateGame = (props) => {
         >Play!
         </Button>
       </div>
+      <ChatBox />
     </div>
   );
 };
@@ -78,7 +83,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getCurrentGame: () => dispatch(getCurrentGameThunk()),
   createGame: () => dispatch(createGameThunk(rounds, difficulty)),
-
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateGame);

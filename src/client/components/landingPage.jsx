@@ -10,9 +10,8 @@ const LandingPage = (props) => {
   const [name, setName] = useState('');
   const [noName, setNoName] = useState(false);
   useEffect(() => {
-    props.getCurrentGame();
+    getCurrentGame();
   }, []);
-  const { game, updateName, history } = props;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -94,7 +93,7 @@ const LandingPage = (props) => {
   );
 };
 
-const mapStateToProps = ({ user }) => ({ user });
+const mapStateToProps = ({ user, game, input }) => ({ user, game, input });
 
 const mapDispatchToProps = (dispatch) => ({
   getCurrentGame: () => dispatch(getCurrentGameThunk()),

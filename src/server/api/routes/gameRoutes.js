@@ -24,6 +24,7 @@ gameRouter.get('/current', async (req, res) => {
 
 // Create game session and set the number of rounds.
 gameRouter.post('/createNew', async (req, res) => {
+
   try {
     let newCode = codeGenerator();
     let check = await GameSession.findOne({ where: { code: newCode } });
@@ -35,19 +36,19 @@ gameRouter.post('/createNew', async (req, res) => {
     const newGame = await GameSession.create({ rounds, difficulty, newCode });
     res.status(201).send(newGame);
   } catch (e) {
-    console.log('Error creating game session');
+    console.log("Error creating game session");
     console.log(e);
   }
 });
 
 // Gets a game prompt based on difficulty
-gameRouter.get('/prompt:difficulty', async (req, res) => {
+gameRouter.get("/prompt:difficulty", async (req, res) => {
   try {
     const { difficulty } = req.query;
     const gamePrompt = await Prompt.findOne({ where: difficulty });
     res.send(gamePrompt);
   } catch (e) {
-    console.log('failed to get game prompt');
+    console.log("failed to get game prompt");
     console.log(e);
   }
 });
@@ -76,3 +77,4 @@ module.exports = {
   path: '/game',
   router: gameRouter,
 };
+

@@ -5,6 +5,7 @@ const { models: { User, Session } } = require('../../db/index');
 const userRouter = Router();
 
 userRouter.post('/login', async (req, res) => {
+
   const { email, password } = req.body;
   const user = await User.findOne({
     where: {
@@ -25,7 +26,7 @@ userRouter.post('/login', async (req, res) => {
   }
 });
 
-userRouter.get('/whoami', (req, res) => {
+userRouter.get("/whoami", (req, res) => {
   if (req.user) {
     res.send({
       email: req.user.email,
@@ -35,7 +36,7 @@ userRouter.get('/whoami', (req, res) => {
   } else {
     res.send({
       email: null,
-      role: 'guest',
+      role: "guest",
       loggedIn: false,
     });
   }
@@ -48,7 +49,7 @@ userRouter.post('/create', async (req, res) => {
     const createdUser = await User.create({ email, name, password });
     res.status(201).send(createdUser);
   } catch (e) {
-    res.sendStatus(500);
+    res.status(500).send('could not find');
     console.log(e);
   }
 });
@@ -60,7 +61,7 @@ userRouter.put('/guest-session', async (req, res) => {
     await Session.update({ name }, { where: { id: req.session_id } });
     res.sendStatus(200);
   } catch (e) {
-    res.sendStatus(500);
+    res.status(500).send('could not find');
     console.log(e);
   }
 });
@@ -73,7 +74,7 @@ userRouter.put('/session', async (req, res) => {
     await Session.update({ gameSessionId }, { where: { id: sessionId } });
     res.sendStatus(200);
   } catch (e) {
-    res.sendStatus(500);
+    res.status(500).send('could not find');
     console.log(e);
   }
 });
@@ -101,7 +102,7 @@ userRouter.put('/user/:id', async (req, res) => {
     }
     res.sendStatus(200);
   } catch (e) {
-    res.sendStatus(500);
+    res.status(500).send('could not find');
     console.log(e);
   }
 });
