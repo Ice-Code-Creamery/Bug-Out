@@ -15,9 +15,11 @@ sessionRouter.put('/updateName', async (req, res) => {
     console.log('Error updating name');
     console.log(e);
   }
-})
+});
+
+//
 
 module.exports = {
   path: '/session',
   router: sessionRouter,
-}
+};

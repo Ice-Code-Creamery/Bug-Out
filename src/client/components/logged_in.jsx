@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { whoami } from '../store/thunks/loginThunks';
 
 const LoggedIn = ({ user, whoAmI }) => {
-  useEffect(() => { 
+  useEffect(() => {
     const getData = async () => {
       await whoAmI();
     };
@@ -16,11 +16,11 @@ const LoggedIn = ({ user, whoAmI }) => {
       <h3>{loggedIn ? 'You are logged in.' : 'Failed to login.'}</h3>
     </div>
   );
-}
+};
 
 const mapStateToProps = ({ user }) => ({ user });
 const mapDispatchToProps = (dispatch) => ({
-  whoAmI: () => dispatch(whoami()),
+  get: () => dispatch(whoami()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoggedIn);

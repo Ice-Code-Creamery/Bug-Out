@@ -8,13 +8,10 @@ Session.belongsTo(User);
 GameSession.hasMany(Session);
 Session.belongsTo(GameSession);
 
-GameSession.hasMany(Session);
-Session.belongsTo(GameSession);
-
-module.exports={
+module.exports = {
   models: {
     User,
     Session,
-    GameSession
-  }
+    GameSession,
+  },
 };

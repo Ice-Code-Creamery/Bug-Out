@@ -12,7 +12,7 @@ const {
 } = require('./routes/index');
 const db = require('../db/index');
 const { app, server } = require('./socket');
-const {codeGenerator} = require('./utils')
+const { codeGenerator } = require('./utils');
 
 const { models: { Session, User, GameSession } } = db;
 
@@ -30,36 +30,35 @@ app.use(async (req, res, next) => {
     res.cookie('session_id', session.id, {
       path: '/',
       expires: new Date(Date.now() + oneWeek),
-    })
+    });
     req.session_id = session.id;
-    next()
+    next();
   } else {
     req.session_id = req.cookies.session_id;
     const user = await User.findOne({
       include: [
         {
           model: Session,
-          where: { id: req.session_id, }
+          where: { id: req.session_id },
         },
       ],
     });
     if (user) {
-      req.user = user
+      req.user = user;
     }
-    next()
+    next();
   }
 });
 
 // assign games if they don't have
 app.use(async (req, res, next) => {
-  const session = await Session.findOne({ where: { id: req.session_id } })
+  const session = await Session.findOne({ where: { id: req.session_id } });
   if (!session && req.cookies.session_id) {
     const newSession = await Session.create({ id: req.cookies.session_id });
     req.session_id = newSession.id;
-    next()
-  }
-  else if (!session.gameSessionId) {
-    let newCode = codeGenerator()
+    next();
+  } else if (!session.gameSessionId) {
+    let newCode = codeGenerator();
     // console.log(newCode)
     let check = await GameSession.findOne({ where: { code: newCode } });
     while (check) {
@@ -69,9 +68,9 @@ app.use(async (req, res, next) => {
     const newGame = await GameSession.create({ code: newCode });
     await Session.update({ gameSessionId: newGame.id }, { where: { id: session.id } });
     // console.log(newGame);
-    next()
+    next();
   }
-  next()
+  next();
 });
 
 app.use(express.static(PUBLIC_PATH));
@@ -81,14 +80,14 @@ app.use(express.json());
 app.use('/api', apiRouter.router);
 app.use('/user', userRouter.router);
 app.use('/game', gameRouter.router);
-app.use('/session',sessionRouter.router);
+app.use('/session', sessionRouter.router);
 
 const startServer = () => new Promise((res) => {
   server.listen(PORT, () => {
-    console.log(green(`server listening on port ${PORT}`))
-    res()
-  })
-})
+    console.log(green(`server listening on port ${PORT}`));
+    res();
+  });
+});
 
 app.get('*', (req, res) => {
   res.sendFile(join(PUBLIC_PATH, './index.html'));
@@ -96,5 +95,5 @@ app.get('*', (req, res) => {
 
 module.exports = {
   startServer,
-  app
-}
+  app,
+};
