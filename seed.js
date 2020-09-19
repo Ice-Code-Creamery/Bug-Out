@@ -90,16 +90,17 @@ const powerups = [
 ];
 const seed = async () => {
   try {
-    seedPrompt();
-    users.map((user) => models.User.create(user));
-    powerups.map((powerup) => models.Powerup.create(powerup));
-    models.GameSession.create();
+    await seedPrompt();
+    await Promise.all(users.map((user) => models.User.create(user)));
+    await Promise.all(powerups.map((powerup) => models.Powerup.create(powerup)));
+    await models.GameSession.create();
     console.log(chalk.green('DB SEEDED'));
+    process.exit(0);
   } catch (e) {
     console.log(chalk.red('ERROR SEEDING DB'), e);
+    process.exit(1);
   }
 };
 
 sync(true)
-  .then(() => seed())
-  .catch(console.log);
+  .then(() => seed());

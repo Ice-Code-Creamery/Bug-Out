@@ -7,6 +7,8 @@ const {
 const userRouter = Router();
 
 userRouter.post('/login', async (req, res) => {
+  console.log('BODY: ', req.body);
+
   const { email, password } = req.body;
   const user = await User.findOne({
     where: {
