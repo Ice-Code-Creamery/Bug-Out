@@ -45,7 +45,13 @@ app.use(async (req, res, next) => {
     let user;
 
     // TODO: On any user change, we would need to update this entry in redis as well.
-    // TODO: We can use redis's own expiry functionality to make sure that this expires after some amount of time, forcing us to re-retrieve the data from the database and make it fresh again. This will lead to an interim period during which, we will not be able to have fresh data about the user. Can only be done with set not hset - would require a change.
+    /*
+      TODO: We can use redis's own expiry functionality to make sure that this expires after
+       some amount of time, forcing us to re-retrieve the data from the database and make it
+       fresh again. This will lead to an interimperiod during which, we will not be able to
+       have fresh data about the user. Can only be done with set not hset
+       - would require a change.
+    */
     const redisResult = await redisClient.hget('bugout', req.session_id);
 
     if (!redisResult) {
