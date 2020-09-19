@@ -4,6 +4,7 @@ const { green } = require('chalk');
 const cors = require('cors');
 const express = require('express');
 const cookieParser = require('cookie-parser');
+const asyncRedis = require('async-redis');
 const {
   apiRouter,
   userRouter,
@@ -13,6 +14,8 @@ const {
 const db = require('../db/index');
 const { app, server } = require('./socket');
 const { codeGenerator } = require('./utils');
+
+const redisClient = asyncRedis.createClient();
 
 const {
   models: { Session, User, GameSession },
@@ -36,15 +39,41 @@ app.use(async (req, res, next) => {
     req.session_id = session.id;
     next();
   } else {
+    console.time('Starting Finding User');
     req.session_id = req.cookies.session_id;
-    const user = await User.findOne({
-      include: [
-        {
-          model: Session,
-          where: { id: req.session_id },
-        },
-      ],
-    });
+
+    let user;
+
+    // TODO: On any user change, we would need to update this entry in redis as well.
+    /*
+      TODO: We can use redis's own expiry functionality to make sure that this expires after
+       some amount of time, forcing us to re-retrieve the data from the database and make it
+       fresh again. This will lead to an interimperiod during which, we will not be able to
+       have fresh data about the user. Can only be done with set not hset
+       - would require a change.
+    */
+    const redisResult = await redisClient.hget('bugout', req.session_id);
+
+    if (!redisResult) {
+      console.log('Postgres Lookup');
+      user = await User.findOne({
+        include: [
+          {
+            model: Session,
+            where: { id: req.session_id },
+          },
+        ],
+      });
+
+      await redisClient.hset('bugout', req.session_id, JSON.stringify(user));
+    } else {
+      console.log('Redis Lookup');
+      user = JSON.parse(redisResult);
+    }
+
+    console.log('Logged in User is: ', user.email);
+
+    console.timeEnd('Starting Finding User');
     if (user) {
       req.user = user;
     }
