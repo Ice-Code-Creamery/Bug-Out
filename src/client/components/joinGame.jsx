@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { joinGameThunk, removeHostThunk } from '../store/thunks';
+import socket from '../utils/socket';
 
-const JoinGame = ({ joinGame, rmHost, history }) => {
+const JoinGame = ({
+  joinGame, rmHost, history,
+}) => {
   const [gameCode, setGameCode] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     rmHost();
+    socket.emit('joinGame');
     joinGame(gameCode, history);
   };
 

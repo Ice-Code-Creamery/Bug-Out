@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { Box } from '@chakra-ui/core';
 import { connect } from 'react-redux';
 import { getCurrentGameThunk } from '../store/thunks';
+import socket from '../utils/socket';
 
 //  Displays all the players in a given room
 const TheCompetition = ({ getCurrentGame, game }) => {
@@ -17,14 +19,16 @@ const TheCompetition = ({ getCurrentGame, game }) => {
 
   return (
     <div>
-      <div>The Competition</div>
-      <div>
-        {
-          roomPlayers.length
-            ? roomPlayers.map((player) => <p key={player.id}>n: {player.name} id: {player.id}</p>)
-            : ''
-        }
-      </div>
+      <Box>
+        <div>The Competition</div>
+        <div>
+          {
+            roomPlayers.length
+              ? roomPlayers.map((player) => <p key={player.id}>n: {player.name} id: {player.id}</p>)
+              : ''
+          }
+        </div>
+      </Box>
     </div>
   );
 };

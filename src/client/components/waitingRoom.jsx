@@ -46,12 +46,6 @@ const WaitingRoom = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     socket.emit('startGame');
-    // if (game) {
-    //   // history.push(`/game/${match.params.id}`);
-    //   setRoundTimes(game.id);
-    // } else {
-    //   console.log('no game!');
-    // }
   };
 
   return (
