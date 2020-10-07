@@ -34,6 +34,9 @@ export const types = {
   SUFFER_POWER_UP: 'SUFFER_POWER_UP',
   GET_LEADERBOARD: 'UPDATE_LEADERBOARD',
   RESET_SCORE: 'RESET_SCORE',
+  SET_PLAYERS: 'SET_PLAYERS',
+  RESET_GAME: 'RESET_GAME',
+  GAME_OVER: 'GAME_OVER',
 };
 
 const addPlayer = (player) => ({
@@ -189,6 +192,19 @@ const resetScore = () => ({
   type: types.RESET_SCORE,
 });
 
+const setPlayers = (players) => ({
+  type: types.SET_PLAYERS,
+  players,
+});
+
+const resetGame = () => ({
+  type: types.RESET_GAME,
+});
+
+const gameOver = () => ({
+  type: types.GAME_OVER,
+});
+
 export {
   changeInitialLoading,
   login,
@@ -221,4 +237,7 @@ export {
   sufferPowerUp,
   updateLeaderboard,
   resetScore,
+  setPlayers,
+  resetGame,
+  gameOver,
 };

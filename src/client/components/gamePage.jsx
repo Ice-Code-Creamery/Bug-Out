@@ -18,7 +18,7 @@ import {
 import socket from '../utils/socket';
 
 const GamePage = ({
-  game, getPowerUps, getCurrentGame, history, match, setSession,
+  game, getPowerUps, getCurrentGame, history, match, setSession, session,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [givenPowerUp, setGivenPowerUp] = useState(null);
@@ -35,6 +35,18 @@ const GamePage = ({
   }, []);
 
   useEffect(() => {
+    if (game.id && session.name) {
+      socket.emit('joinRoom', game.id, session.name);
+    }
+  }, [game.id, session.name]);
+
+  useEffect(() => {
+    if (game.gameOver) {
+      history.push('/game-over');
+    }
+  }, [game.gameOver]);
+
+  useEffect(() => {
     if (game.powerUpCount) {
       setSuffering(true);
       setTimeout(() => {
@@ -45,9 +57,9 @@ const GamePage = ({
 
   const endRound = async () => {
     await getCurrentGame(match.params.id);
-    await setStandings(game.players.sort((a, b) => a.score - b.score));
+    await setStandings(game.players.sort((a, b) => b.score - a.score));
     onOpen();
-    socket.emit('roundOver');
+    socket.emit('roundOver', game.id);
   };
 
   useEffect(() => {
@@ -64,7 +76,7 @@ const GamePage = ({
         setGivenPowerUp(powerUp);
         clearInterval(powerUpTimerId);
       }
-    }, 5000); // runs every 20 seconds;
+    }, 7000); // runs every 20 seconds;
     return () => {
       clearInterval(powerUpTimerId);
     };
@@ -84,7 +96,7 @@ const GamePage = ({
     return () => {
       clearInterval(timeLeft);
     };
-  });
+  }, []);
 
   return (
     <div
@@ -115,7 +127,7 @@ const GamePage = ({
                   type="button"
                   className="button"
                   onClick={() => {
-                    socket.emit('powerUp', givenPowerUp.funcName);
+                    socket.emit('powerUp', givenPowerUp.funcName, game.id);
                     setGivenPowerUp(null);
                   }}
                 >{givenPowerUp.name}

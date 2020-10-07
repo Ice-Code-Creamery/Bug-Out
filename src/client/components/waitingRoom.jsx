@@ -40,9 +40,6 @@ const WaitingRoom = ({
     if (game.id && session.name) {
       socket.emit('joinRoom', game.id, session.name);
     }
-    return () => {
-      socket.emit('leaveRoom', game.id);
-    };
   }, [game.id, session.name]);
 
   useEffect(() => {
@@ -51,11 +48,9 @@ const WaitingRoom = ({
     }
   }, [game.active]);
 
-  console.log('game', game);
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    socket.emit('startGame');
+    socket.emit('startGame', game.id);
   };
 
   return (
@@ -119,12 +114,10 @@ const WaitingRoom = ({
         <div>
           <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
             <ModalOverlay />
-            <ModalContent className="modalcontainer">
-              <ModalHeader className="modalheader">Prepare to Bugout!</ModalHeader>
-              <ModalBody className="modal">
-                <div
-                  className="innermodal"
-                >
+            <ModalContent>
+              <ModalHeader>Prepare to Bugout!</ModalHeader>
+              <ModalBody>
+                <div>
                   <p>Game Starts in</p>
                   <GameStartTimer match={match} history={history} />
                 </div>

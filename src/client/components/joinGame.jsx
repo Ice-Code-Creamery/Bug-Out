@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { joinGameThunk, removeHostThunk } from '../store/thunks';
 
-const JoinGame = ({ joinGame, rmHost, history }) => {
+const JoinGame = ({ joinGame, history, rmHost }) => {
   const [gameCode, setGameCode] = useState('');
 
   const handleSubmit = (e) => {
@@ -10,6 +10,10 @@ const JoinGame = ({ joinGame, rmHost, history }) => {
     rmHost();
     joinGame(gameCode, history);
   };
+
+  useEffect(() => {
+    rmHost();
+  }, []);
 
   return (
     <form

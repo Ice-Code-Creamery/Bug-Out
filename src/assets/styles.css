@@ -497,7 +497,6 @@
     font-size: 3rem;
 }
 
-
 .rounds {
     display: flex;
     align-items: center;
@@ -648,6 +647,8 @@ font-size: 16px;
     min-width: 160px;
     width: 25%;
     height: auto;
+    max-height: 50%;
+    overflow-y: scroll;
     z-index: 1;
 }
   

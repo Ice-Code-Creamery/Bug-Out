@@ -1,11 +1,13 @@
 /* eslint-disable max-len */
 /* eslint-disable no-shadow */
 import React, { Component } from 'react';
+import { Text } from '@chakra-ui/core';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import {
   setRoundTimesThunk, getPromptThunk, setSessionThunk, roundReset,
 } from '../store/thunks';
+import socket from '../utils/socket';
 
 class RoundStartTimer extends Component {
   constructor() {
@@ -41,6 +43,7 @@ class RoundStartTimer extends Component {
       }, 1000);
     } else {
       axios.post('/game/leaderboard');
+      socket.emit('gameOver', this.props.game.id);
       this.props.history.push('/game-over');
     }
   }
@@ -57,12 +60,10 @@ class RoundStartTimer extends Component {
   render() {
     const { seconds } = this.state;
     return (
-      <div
-        className="roundstarttimer"
-      >
+      <div>
         { seconds === 0
-          ? <span>Lets Play!</span>
-          : <span fontSize={70}>{seconds}</span>}
+          ? <Text>Lets Play!</Text>
+          : <Text fontSize={70}>{seconds}</Text>}
       </div>
     );
   }
