@@ -539,7 +539,7 @@ const presData = [
 // eslint-disable-next-line array-callback-return
 const seedPrompt = () => {
   // eslint-disable-next-line array-callback-return
-  presData.map((prompt) => {
+  data.map((prompt) => {
     axios.get(`https://www.codewars.com/api/v1/code-challenges/${prompt.slug}/?access_key=QsVQKDG8_jqTJVwrWFWo`)
     // eslint-disable-next-line no-shadow
       .then(({ data }) => {
